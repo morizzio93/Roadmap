@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from './AuthContext';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Validate the username and password
     if (email === 'maurice@tran.com' && password === 'correct') {
+      login();
       // Create the user object
       const user = {
         id: uuidv4(),
