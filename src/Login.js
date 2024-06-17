@@ -2,12 +2,23 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from './AuthContext';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,7 +40,7 @@ function Login() {
       // Redirect to the /features page
       navigate('/features');
     } else {
-      alert('Invalid credentials');
+      setOpenSnackbar(true);
     }
   };
 
@@ -58,6 +69,12 @@ function Login() {
           />
         </div>
         <button type="submit">Submit</button>
+        {/* Snackbar pour les messages d'erreur */}
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
+          <MuiAlert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+              Incorrect or inexisting credentials
+          </MuiAlert>
+        </Snackbar>
       </form>
     </div>
   );
