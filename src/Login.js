@@ -10,22 +10,20 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
-
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenSnackbar(false);
-    };
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Validate the username and password
     if (email === 'maurice@tran.com' && password === 'correct') {
-      login();
       // Create the user object
       const user = {
         id: uuidv4(),
@@ -37,6 +35,9 @@ function Login() {
       // Store the user object in localStorage
       localStorage.setItem('users', JSON.stringify(user));
 
+      // Call the login function with the email
+      login(email);
+
       // Redirect to the /features page
       navigate('/features');
     } else {
@@ -46,13 +47,13 @@ function Login() {
 
   return (
     <div>
-      <h2>login</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <input 
-            placeholder='email'
-            type='email'
-            id='email'
+          <input
+            placeholder="email"
+            type="email"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -60,9 +61,9 @@ function Login() {
         </div>
         <div>
           <input
-            placeholder='password'
-            type='password'
-            id='password'
+            placeholder="password"
+            type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -72,7 +73,7 @@ function Login() {
         {/* Snackbar pour les messages d'erreur */}
         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleSnackbarClose}>
           <MuiAlert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
-              Incorrect or inexisting credentials
+            Incorrect or inexisting credentials
           </MuiAlert>
         </Snackbar>
       </form>

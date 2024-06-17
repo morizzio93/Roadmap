@@ -28,6 +28,7 @@ function App() {
                   </PrivateRoute>
                 }
               />
+              <Route path="*" element={<Navigate to="/" />} />
               {/* Add more routes as needed */}
             </Routes>
           </Router>
