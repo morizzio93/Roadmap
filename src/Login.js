@@ -33,7 +33,7 @@ function Login() {
     const password = formData.get('password');
 
     // Valide le username et le password
-    if (email === 'maurice@tran.com' && password === 'correct') {
+    if (email === 'maurice-tran' && password === 'correct') {
       // Crée l'objet utilisateur
       const user = {
         id: uuidv4(),
@@ -87,8 +87,6 @@ function Login() {
               name="email"
               autoComplete="email"
               autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -99,8 +97,6 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"
