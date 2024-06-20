@@ -1,7 +1,12 @@
+import React from "react";
+import Typography from "@mui/material/Typography";
+
 function Features() {
   return (
     <div>
-      <h2>Features</h2>
+      <Typography component="h1" variant="h5">
+        Features
+      </Typography>
       {/* Add more content for the features list here */}
     </div>
   );
