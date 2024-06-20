@@ -6,8 +6,6 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -22,9 +20,14 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Validate the username and password
+    // Obtient les données du formulaire
+    const formData = new FormData(event.target);
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    // Valide le username et le password
     if (email === 'maurice@tran.com' && password === 'correct') {
-      // Create the user object
+      // Crée l'objet utilisateur
       const user = {
         id: uuidv4(),
         email: email,
@@ -32,13 +35,13 @@ function Login() {
         isSuperadmin: true,
       };
 
-      // Store the user object in localStorage
+      // Stocke l'objet utilisateur dans localStorage
       localStorage.setItem('users', JSON.stringify(user));
 
-      // Call the login function with the email
+      // Appelle la fonction de login avec l'email
       login(email);
 
-      // Redirect to the /features page
+      // Redirige vers la page /features
       navigate('/features');
     } else {
       setOpenSnackbar(true);
@@ -53,9 +56,7 @@ function Login() {
           <input
             placeholder="email"
             type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
             required
           />
         </div>
@@ -63,9 +64,7 @@ function Login() {
           <input
             placeholder="password"
             type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
             required
           />
         </div>
