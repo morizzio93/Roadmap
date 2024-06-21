@@ -35,7 +35,7 @@ function Login() {
     const password = formData.get('password');
 
     try {
-      const response = await axios.post('/api/log/in', { username, password });
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/log/in`, { username, password });
 
       if (response.status === 200) {
         localStorage.setItem("session_token", response.data.access);
