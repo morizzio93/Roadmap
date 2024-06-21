@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import axios from 'axios';
 import { useAuth } from "./AuthContext";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -11,10 +11,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSnackbarClose = (event, reason) => {
@@ -24,34 +26,28 @@ function Login() {
     setOpenSnackbar(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
-    // Obtient les données du formulaire
     const formData = new FormData(event.target);
-    const email = formData.get('email');
+    const username = formData.get('email'); // Utilisation de 'email' pour le champ 'username'
     const password = formData.get('password');
 
-    // Valide le username et le password
-    if (email === 'maurice-tran' && password === 'correct') {
-      // Crée l'objet utilisateur
-      const user = {
-        id: uuidv4(),
-        email: email,
-        password: password,
-        isSuperadmin: true,
-      };
+    try {
+      const response = await axios.post('/api/log/in', { username, password });
 
-      // Store the user object in localStorage
-      localStorage.setItem("users", JSON.stringify(user));
-
-      // Appelle la fonction de login avec l'email
-      login(email);
-
-      // Redirect to the /features page
-      navigate("/features");
-    } else {
+      if (response.status === 200) {
+        localStorage.setItem("session_token", response.data.access);
+        login(username);
+        navigate("/features");
+      } else {
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
       setOpenSnackbar(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,13 +99,13 @@ function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={loading}
             >
-              Sign In
+              {loading ? <CircularProgress size={24} /> : 'Sign In'}
             </Button>
           </Box>
         </Box>
       </Container>
-      {/* Snackbar pour les messages d'erreur */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
