@@ -8,12 +8,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = (email) => {
     setIsAuthenticated(true);
-    setUsername(email); // Utilisation de l'email comme nom d'utilisateur
+    setUsername(email);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setUsername(null);
+    localStorage.removeItem('session_token');
   };
 
   return (
