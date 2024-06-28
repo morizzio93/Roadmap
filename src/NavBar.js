@@ -45,7 +45,7 @@ const NavBar = () => {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>{"Confirm Logout"}</DialogTitle>
+        <DialogTitle>Confirm Logout</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to log out?
