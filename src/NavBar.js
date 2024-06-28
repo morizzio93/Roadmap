@@ -24,7 +24,6 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logout();
-    localStorage.removeItem('session_token'); // Clear the session token
     handleClose();
   };
 
