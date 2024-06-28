@@ -41,9 +41,11 @@ function Login() {
         localStorage.setItem("session_token", response.data.access);
         login(username);
         navigate("/features");
-      } else {
-        setOpenSnackbar(true);
-      }
+        return;
+      } 
+        
+      setOpenSnackbar(true);
+      
     } catch (error) {
       setOpenSnackbar(true);
     } finally {
