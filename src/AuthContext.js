@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     setUsername(null);
-    localStorage.removeItem('session_token'); // Ensure the session token is removed
+    localStorage.removeItem('session_token');
   };
 
   return (
